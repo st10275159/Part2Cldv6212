@@ -1,0 +1,92 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<ABCRetailWebApp.Models.ProductInfo>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="container mt-4">
+    <h1>Product Catalog</h1>
+    <p>Manage product information stored in Azure Table Storage</p>
+
+    <p>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> Add New Product
+        </a>
+    </p>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>Product Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Category</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    @foreach (var product in Model)
+                    {
+                        <tr>
+                            <td><strong>@product.ProductName</strong></td>
+                            <td>@product.Description</td>
+                            <td>R @product.Price.ToString("N2")</td>
+                            <td>
+                                @if (product.StockQuantity > 10)
+                                {
+                                    <span class="badge bg-success">@product.StockQuantity</span>
+                                }
+                                else if (product.StockQuantity > 0)
+                                {
+                                    <span class="badge bg-warning">@product.StockQuantity</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-danger">Out of Stock</span>
+                                }
+                            </td>
+                            <td>@product.Category</td>
+                            <td>
+                                <a asp-action="Delete"
+                                   asp-route-partitionKey="@product.PartitionKey"
+                                   asp-route-rowKey="@product.RowKey"
+                                   class="btn btn-sm btn-danger">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="6" class="text-center">
+                            <em>No products found. Click "Add New Product" to get started.</em>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="alert alert-info mt-3">
+        <strong>Total Products:</strong> @(Model?.Count() ?? 0)
+    </div>
+</div>

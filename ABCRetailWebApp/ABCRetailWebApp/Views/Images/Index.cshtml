@@ -1,0 +1,76 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model IEnumerable<ABCRetailWebApp.Models.BlobInfo>
+
+@{
+    ViewData["Title"] = "Product Images";
+}
+
+<div class="container mt-4">
+    <h1>Product Images</h1>
+    <p>Images stored in Azure Blob Storage</p>
+
+    <p>
+        <a asp-action="Upload" class="btn btn-primary">
+            <i class="bi bi-cloud-upload"></i> Upload New Image
+        </a>
+    </p>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <div class="row">
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var blob in Model)
+            {
+                <div class="col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <img src="@blob.Uri" class="card-img-top" alt="@blob.Name" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h6 class="card-title text-truncate" title="@blob.Name">@blob.Name</h6>
+                            <p class="card-text">
+                                <small class="text-muted">
+                                    Size: @((blob.Size / 1024.0).ToString("N2")) KB<br />
+                                    Type: @blob.ContentType
+                                </small>
+                            </p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="@blob.Uri" target="_blank" class="btn btn-sm btn-info">View</a>
+                            <a asp-action="Delete" asp-route-blobName="@blob.Name" class="btn btn-sm btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <em>No images found. Click "Upload New Image" to add images to blob storage.</em>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="alert alert-info mt-3">
+        <strong>Total Images:</strong> @(Model?.Count() ?? 0)
+    </div>
+</div>

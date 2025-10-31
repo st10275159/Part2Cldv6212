@@ -1,0 +1,89 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@{
+    ViewData["Title"] = "Upload Image";
+}
+
+<div class="container mt-4">
+    <h1>Upload Image</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-8">
+            <form asp-action="Upload" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="mb-3">
+                    <label for="file" class="form-label">Select Image File</label>
+                    <input type="file"
+                           class="form-control"
+                           id="file"
+                           name="file"
+                           accept="image/*"
+                           required
+                           onchange="previewImage(event)">
+                    <small class="form-text text-muted">
+                        Supported formats: JPG, PNG, GIF, BMP (Max 5MB)
+                    </small>
+                </div>
+
+                <div class="mb-3">
+                    <label>Image Preview:</label>
+                    <div class="border rounded p-3 text-center" style="min-height: 200px;">
+                        <img id="preview"
+                             src="#"
+                             alt="Image preview"
+                             style="max-width: 100%; max-height: 300px; display: none;">
+                        <p id="noPreview" class="text-muted">No image selected</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-cloud-upload"></i> Upload Image
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to List
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Information</h5>
+                    <p class="card-text">
+                        Images are stored in Azure Blob Storage with public access for easy viewing.
+                    </p>
+                    <p class="card-text">
+                        <small class="text-muted">A queue message will be generated when you upload.</small>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('preview');
+            const noPreview = document.getElementById('noPreview');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                    noPreview.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+}

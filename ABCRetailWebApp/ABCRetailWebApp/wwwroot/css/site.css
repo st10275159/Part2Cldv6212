@@ -1,0 +1,93 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px, font-family: "Segoe UI", Roboto, sans-serif;
+    background-color: #f4f6f9;
+}
+
+.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+/* === NAVBAR === */
+.navbar {
+    background-color: #004aad;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #fff !important;
+    letter-spacing: 0.5px;
+}
+
+.nav-link {
+    color: #ffffff !important;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: #ffc107 !important;
+    }
+
+/* === CONTAINER / MAIN === */
+main {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 25px 30px;
+    margin-top: 30px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* === FOOTER === */
+footer {
+    background-color: #004aad;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    margin-top: 50px;
+}
+
+    footer a {
+        color: #ffc107;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+/* === MOBILE === */
+@media (max-width: 767px) {
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    main {
+        padding: 20px;
+    }
